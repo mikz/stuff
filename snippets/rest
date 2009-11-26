@@ -1,0 +1,72 @@
+def index
+  @${2:${1:thing}s} = ${3:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}.find :all
+  respond_to do |format|
+    format.html # index.html.erb
+    format.xml  { render :xml => @$2 }
+  end
+end
+
+def show
+  @${4:${1}} = $3.find(params[:id])
+
+  respond_to do |format|
+    format.html # show.html.erb
+    format.xml  { render :xml => @$4 }
+  end
+end
+
+def new
+  @$4 = $3.new
+
+  respond_to do |format|
+    format.html # new.html.erb
+    format.xml  { render :xml => @$4 }
+  end
+end
+
+def edit
+  @$4 = $3.find(params[:id])
+end
+
+def create
+  @$4 = $3.new(params[:$4])
+
+  respond_to do |format|
+    if @$4.save
+      flash[:notice] = t("success", :scope => [:$2, :create])
+      format.html { redirect_to(:action => :show, :id => @$4.id) }
+      format.xml  { render :xml => @$4, :status => :created, :location => @$4 }
+    else
+      format.html { render :action => :new }
+      format.xml  { render :xml => @$4.errors, :status => :unprocessable_entity }
+    end
+  end
+end
+
+def update
+  @$4 = $3.find(params[:id])
+
+  respond_to do |format|
+    if @$4.update_attributes(params[:$4])
+      flash[:notice] = t("success", :scope => [:$2, :update])
+      format.html { redirect_to(:action => :show, :id => @$4.id) }
+      format.xml  { head :ok }
+    else
+      format.html { render :action => :edit }
+      format.xml  { render :xml => @$4.errors, :status => :unprocessable_entity }
+    end
+  end
+end
+
+def destroy
+  @$4 = $3.find(params[:id])
+  @$4.destroy
+
+  respond_to do |format|
+    format.html {
+      flash[:notice] = t("success", :scope => [:$2, :destroy])
+      redirect_to(:back)
+    }
+    format.xml  { head :ok }
+  end
+end
